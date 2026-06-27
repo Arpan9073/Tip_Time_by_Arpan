@@ -1,64 +1,79 @@
 # Tip Time
 
-Tip Time is a simple Android tip calculator app built with Kotlin and Jetpack Compose.
+Tip Time is a small Android tip calculator app built with Kotlin and Jetpack Compose.
 
 ## Overview
 
-This project demonstrates a Compose-based Android app that calculates a tip amount from a bill amount and a tip percentage.
+This project is a Compose-first sample app that computes a tip amount from a bill value and a tip percentage. It also offers an optional rounding toggle and uses Material 3 styling with dynamic theming support on Android 12+.
+
+## App Behavior
+
+- Enter a bill amount.
+- Enter a tip percentage.
+- Toggle `Round Up Tip?` to round the tip to the next whole currency unit.
+- The app displays the calculated tip formatted in the device currency.
+- Invalid bill input is treated as `0.0` and invalid tip input falls back to `15.0` percent.
 
 ## Features
 
-- Enter bill amount
-- Enter tip percentage
-- Display formatted tip amount
-- Compose UI with Material 3 styling
-- Edge-to-edge layout support
+- Kotlin + Jetpack Compose UI
+- Material 3 design
+- Edge-to-edge layout with `enableEdgeToEdge()` support
+- Currency-formatted tip output
+- Round-up tip option
+- Dynamic color support for Android 12+ via Compose theme
 
 ## Project Structure
 
 - `build.gradle.kts` - root Gradle configuration
 - `settings.gradle.kts` - project settings and module inclusion
+- `gradle/libs.versions.toml` - dependency and plugin version catalog
 - `app/build.gradle.kts` - Android app module configuration
-- `app/src/main/java/com/example/tiptime/MainActivity.kt` - app entry point and UI logic
-- `app/src/main/java/com/example/tiptime/ui/theme/` - theme definitions and colors
-- `app/src/main/res/values/strings.xml` - string resources
-- `app/src/main/res/values/themes.xml` - theme styles
-- `app/src/main/res/values/colors.xml` - color palette
-- `app/src/main/AndroidManifest.xml` - app manifest and launch activity
+- `app/src/main/java/com/example/tiptime/MainActivity.kt` - app entry point, UI composables, and business logic
+- `app/src/main/java/com/example/tiptime/ui/theme/Theme.kt` - Material 3 theme definitions
+- `app/src/main/res/values/strings.xml` - app text resources
+- `app/src/main/AndroidManifest.xml` - application manifest and launch activity
 
 ## Technical Details
 
 - Kotlin
 - Jetpack Compose
-- AndroidX Material3
+- AndroidX Material 3
 - Minimum SDK: 26
 - Target SDK: 36
 - Java compatibility: 11
 
 ## Build and Run
 
-From the project root:
+From the project root on Windows:
+
+```powershell
+.
+\gradlew.bat clean assembleDebug
+```
+
+Or in a Unix-like shell:
 
 ```bash
 ./gradlew clean assembleDebug
 ```
 
-Open the project in Android Studio and run the `app` module on an emulator or device.
+Then open the project in Android Studio and run the `app` module on a device or emulator.
 
-## Usage
+## Live Preview
 
-1. Enter the bill amount.
-2. Enter the tip percentage.
-3. The calculated tip amount is displayed automatically.
+The project also includes a Compose preview function in `MainActivity.kt` for inspecting the UI in Android Studio.
 
 ## Notes
 
-- The tip amount uses the system currency formatting.
-- The current implementation defaults an invalid tip input to `15.0` percent.
+- The tip calculation is implemented in `calculateTip(amount, tipPer, roundUp)`.
+- Tip text is displayed using `R.string.tip_amount` and `NumberFormat.getCurrencyInstance()`.
+- The app uses `TextField` composables for input and a `Switch` for the round-up option.
 
-## Potential Improvements
+## Possible Improvements
 
-- Add rounding options
-- Show total amount including tip
+- Show total bill amount including tip
 - Add bill splitting support
-- Add validation and error handling for empty or invalid input
+- Improve validation and error messaging for empty or invalid input
+- Add accessibility labels and focus handling
+- Add unit tests for tip calculation logic

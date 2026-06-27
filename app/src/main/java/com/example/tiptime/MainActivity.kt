@@ -9,17 +9,21 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -53,8 +57,12 @@ class MainActivity : ComponentActivity() {
 }
 
 
-fun calculateTip(amount: Double, tipPer: Double): String {
-    val tip = tipPer / 100 * amount
+fun calculateTip(amount: Double, tipPer: Double, roundUp: Boolean): String {
+    var tip = tipPer / 100 * amount
+
+    if (roundUp){
+        tip = kotlin.math.ceil(tip)
+    }
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
@@ -67,7 +75,9 @@ fun Tip_Time(modifier: Modifier = Modifier) {
     var tipInput by remember { mutableStateOf("") }
     val tipPer = tipInput.toDoubleOrNull() ?: 15.0
 
-    val tip = calculateTip(amount, tipPer)
+    var roundUp by remember { mutableStateOf(false) }
+
+    val tip = calculateTip(amount, tipPer, roundUp)
 
     Column(
         modifier = modifier
@@ -110,6 +120,11 @@ fun Tip_Time(modifier: Modifier = Modifier) {
                 .padding(bottom = 20.dp)
                 .fillMaxWidth()
         )
+        RoundUpTip(
+            roundUp = roundUp,
+            onRoundUpChange = { roundUp = it},
+            modifier = Modifier.padding(15.dp)
+            )
         Text(
             text = stringResource(
                 R.string.tip_amount,
@@ -137,6 +152,31 @@ fun EditNumberField(
         singleLine = true,
         keyboardOptions = keyboardOptions,
     )
+}
+
+@Composable
+fun RoundUpTip(
+    roundUp: Boolean,
+    onRoundUpChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+){
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .size(30.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(R.string.round_up_tip)
+        )
+        Switch(
+            checked = roundUp,
+            onCheckedChange = onRoundUpChange,
+            modifier = modifier
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.End)
+        )
+    }
 }
 
 @Preview(
