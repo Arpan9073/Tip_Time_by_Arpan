@@ -53,6 +53,10 @@ class MainActivity : ComponentActivity() {
 }
 
 
+fun calculateTip(amount: Double, tipPer: Double): String {
+    val tip = tipPer / 100 * amount
+    return NumberFormat.getCurrencyInstance().format(tip)
+}
 
 @Composable
 fun Tip_Time(modifier: Modifier = Modifier) {
@@ -115,11 +119,6 @@ fun Tip_Time(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(200.dp))
     }
-}
-
-private fun calculateTip(amount: Double, tipPercent: Double): String {
-    val tip = tipPercent / 100 * amount
-    return NumberFormat.getCurrencyInstance().format(tip)
 }
 
 @Composable
