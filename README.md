@@ -19,6 +19,7 @@ This project is a Compose-first sample app that computes a tip amount from a bil
 - Kotlin + Jetpack Compose UI
 - Material 3 design
 - Edge-to-edge layout with `enableEdgeToEdge()` support
+- Vertical scrolling support for smaller screens
 - Currency-formatted tip output
 - Round-up tip option
 - Dynamic color support for Android 12+ via Compose theme
