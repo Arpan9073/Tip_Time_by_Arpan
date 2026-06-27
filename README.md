@@ -78,3 +78,14 @@ The project also includes a Compose preview function in `MainActivity.kt` for in
 - Improve validation and error messaging for empty or invalid input
 - Add accessibility labels and focus handling
 - Add unit tests for tip calculation logic
+
+## Implementation details (updated 2026-06-27)
+
+- Entry point UI: `Tip_Time` composable is launched from `MainActivity` inside a `Scaffold`.
+- Tip calculation: `calculateTip(amount, tipPer, roundUp)` computes the tip and returns a currency-formatted `String` via `NumberFormat.getCurrencyInstance()`; when `roundUp` is true it uses `kotlin.math.ceil`.
+- Inputs: amount and tip percentage are captured with `EditNumberField` text fields (defaults: amount = `0.0`, tip% = `15.0`). Leading icons use `R.drawable.money` and `R.drawable.percentage`.
+- UI details: the activity calls `enableEdgeToEdge()` and the layout applies `statusBarsPadding()` and `verticalScroll(rememberScrollState())` for small screens. The calculated tip is shown using `MaterialTheme.typography.displaySmall`.
+- Round-up control: provided by `RoundUpTip` composable which uses a `Switch`.
+- Preview: `TipTimePreview` uses `showSystemUi = true` so the Compose preview shows system chrome.
+
+If you'd like, I can expand the README with a small code snippet showing `calculateTip()` usage or add a short changelog entry describing why these UI changes were made.
